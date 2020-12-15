@@ -8,17 +8,22 @@ import java.util.Date;
  */
 public class ShoppingCartController {
     private ShoppingCart cart;
+    private Caretaker caretaker;
 
     public ShoppingCartController() {
         cart = new ShoppingCart();
+        caretaker = new Caretaker(cart);
     }
 
     public void addProduct(String name, double cost) {
+        caretaker.saveState();
         Product p = new Product(name, cost);
         cart.addProduct(p);
+
     }
 
     public void reset() {
+        caretaker.saveState();
         cart.reset();
     }
 
@@ -31,7 +36,8 @@ public class ShoppingCartController {
         return;
     }
 
-    public void undo(Date date) {
+    public void undo() {
+        caretaker.restoreState();
     }
 
     public Collection<Product> getProducts() {
